@@ -4,6 +4,10 @@ let connectButton;
 
 let readyToReceive;
 
+let data = JSON.parse(data).data;
+let v2 = data.v2;
+let v3 = data.v3;
+let v4 = data.v4;
 
 
 function receiveSerial() {
@@ -13,16 +17,7 @@ function receiveSerial() {
 
 
   }
-
-  // get data from Serial string
-  let data = JSON.parse(data).data;
-  let v2 = data.v2;
-  let v3 = data.v3;
-  let v4 = data.v4;
-
-
-
-  // serial update
+ // serial update
   readyToReceive = true;
 
 function connectToSerial() {
