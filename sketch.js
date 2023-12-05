@@ -1,13 +1,10 @@
+// serial variables
 let mSerial;
 
 let connectButton;
 
 let readyToReceive;
 
-let data = JSON.parse(data).data;
-let v2 = data.v2;
-let v3 = data.v3;
-let v4 = data.v4;
 
 
 function receiveSerial() {
@@ -15,10 +12,19 @@ function receiveSerial() {
   trim(line);
   if (!line) return;
 
-
+  if (line.charAt(0) != "{") {
+    print("error: ", line);
+    readyToReceive = true;
+    return;
   }
- // serial update
+
+  // get data from Serial string
+  let data = JSON.parse(line).data;
+
+
+  // serial update
   readyToReceive = true;
+}
 
 function connectToSerial() {
   if (!mSerial.opened()) {
@@ -46,11 +52,15 @@ function setup() {
 function draw() {
   // project logic
   background(0);
-  
+  // update serial: request new data
   if (mSerial.opened() && readyToReceive) {
     readyToReceive = false;
     mSerial.clear();
     mSerial.write(0xab);
   }
 
+  // update serial: read new data
+  if (mSerial.availableBytes() > 8) {
+    receiveSerial();
+  }
 }
