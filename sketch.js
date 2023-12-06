@@ -20,7 +20,7 @@ function receiveSerial() {
 
   // get data from Serial string
   let data = JSON.parse(line).data;
-
+print(data)
 
   // serial update
   readyToReceive = true;
